@@ -1,0 +1,165 @@
+class Toad {
+  float toadPosX, toadPosY, tongueTipY, collisionTip, toadRelativeX, tongueBase, tonguePosition;
+  //PImage toadImage;
+  PImage[] idle = new PImage[10];
+  PImage[] moveleft = new PImage[7];
+  PImage[] moveright = new PImage[7];
+  PImage[] eatMove = new PImage[8];
+  PImage[] eatFalse = new PImage[12];
+  PImage toadImageSize;
+  int frame = 0;
+  
+  Toad(float tempPosX) {
+    for (int i = 0; i < idle.length; i++) {
+      idle[i] = loadImage("static/idle"+i+".png");
+    }
+    for (int i = 0; i < moveleft.length; i++) {
+      moveleft[i] = loadImage("static/left"+i+".png");
+    } 
+    for (int i = 0; i < eatMove.length; i++) {
+      eatMove[i] = loadImage("static/eat"+i+".png");
+    } 
+    for (int i = 0; i < eatFalse.length; i++) {
+      eatFalse[i] = loadImage("static/eatOut"+i+".png");
+    }
+    for (int i = 0; i < moveright.length; i++) {
+      moveright[i] = loadImage("static/right"+i+".png");
+    }
+    tongueTipY = toadPosY - 20;  
+    //toadImage = loadImage("toad.png");
+    if (tempPosX == 1) {
+      toadPosX = gridX1;
+    } else if (tempPosX == 2) {
+      toadPosX = gridX2;
+    } else if (tempPosX == 3) {
+      toadPosX = gridX3;
+    } else if (tempPosX == 4) {
+      toadPosX = gridX4;
+    } else if (tempPosX == 5) {
+      toadPosX = gridX5;
+    }
+    toadRelativeX = toadPosX + (moduleX/2);
+    toadPosY = gridY6 + (moduleY/2);
+    tongueBase = map(tonguePosition, 0, idle[1].height, 0, moduleX*2);
+  }
+  
+  void display() {
+
+      imageMode(CENTER);
+      collisionTip = (gridY6 + (moduleY/2)) + tongueTipY; 
+      if (moveLeft == false && moveRight == false && eatIn == false && eatOut == false) {
+        if (frame == 0) {
+          image(idle[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+          frame++;
+        } else if (frame > 0 && frame <= 7) {
+          image(idle[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+          frame++;
+        } else {
+          frame = 0;
+          image(idle[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+        }
+      } 
+      
+      if (eatIn == true) {
+       
+          if (frame == 0) {  
+            
+            image(eatMove[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else if (frame > 0 && frame <= 2) {
+            image(eatMove[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else if (frame > 3 && frame <= 7) {
+           
+            image(eatMove[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+           
+            fill(226, 144, 189);
+            ellipseMode(CENTER);
+            ellipse(toadRelativeX, collisionTip, 50, 50);
+            
+          } else {
+            image(eatMove[7], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            fill(226, 144, 189);
+            ellipseMode(CENTER);
+            ellipse(toadRelativeX, collisionTip, 50, 50);
+          }
+          
+      } else if (eatOut == true) {
+          if (frame == 4) {
+            
+           
+          } else if (frame == 5) {
+           
+          
+          }  else if (frame == 6) {
+            
+           
+          } else if (frame == 7) {
+           
+            
+          } else if (frame == 8) {
+           
+            
+          }
+          
+          if (frame == 0) {
+            image(eatFalse[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+            
+            
+            //stroke(226, 144, 189);
+            //strokeWeight(20);  // Beastly
+            //line(toadRelativeX, tongueBase, toadRelativeX, collisionTip);
+            
+            
+            noStroke();
+            fill(226, 144, 189);
+            ellipseMode(CENTER);
+            ellipse(toadRelativeX, collisionTip, 50, 50);
+            
+          } else if (frame > 0 && frame <= 8) {
+            image(eatFalse[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+            
+            noStroke();
+            fill(226, 144, 189);
+            ellipseMode(CENTER);
+            ellipse(toadRelativeX, collisionTip, 50, 50);
+          } else if (frame > 9 && frame <= 11) {
+            image(eatFalse[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else {
+            image(eatFalse[11], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+
+          }  
+      }
+      
+      if (moveRight == true) {
+          if (frame == 0) {
+            image(moveright[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else if (frame > 0 && frame <= 6) {
+            image(moveright[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else {
+            frame = 0;
+            image(moveright[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+          }
+      } else if (moveLeft == true) {
+          if (frame == 0) {
+            image(moveleft[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else if (frame > 0 && frame <= 6) {
+            image(moveleft[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+            frame++;
+          } else {
+            frame = 0;
+            image(moveleft[frame], toadRelativeX, toadPosY, moduleX*2, moduleX*2);
+          }
+      }
+     fill(0, 255, 0);
+     ellipseMode(CENTER);
+     ellipse(toadRelativeX, tonguePosY - tongueBase, 50, 50);
+  }
+}
